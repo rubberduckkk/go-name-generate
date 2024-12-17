@@ -1,7 +1,10 @@
-package go_name_generate
+package main
 
 import (
+	"encoding/csv"
+	"log"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -110,4 +113,25 @@ func getGirlNames(num int) []string {
 	}
 
 	return names
+}
+
+func main() {
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	file, err := os.Create("test_nicknames.csv")
+	if err != nil {
+		log.Fatalf("error creating file: %v", err)
+	}
+	defer file.Close()
+
+	csvWriter := csv.NewWriter(file)
+	defer csvWriter.Flush()
+
+	names := GetNames(100, SexAll)
+
+	// Generate and print 100 random nicknames
+	for _, name := range names {
+		_ = csvWriter.Write([]string{"ai-" + name})
+	}
 }

@@ -1,4 +1,4 @@
-package go_name_generate
+package main
 
 import (
 	"log"
